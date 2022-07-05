@@ -1,4 +1,7 @@
 const express = require('express')
+const userRoutes = require('./routes/userRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
+const resolutionRoutes = require('./routes/resolutionRoutes');
 
 const app = express()
 
@@ -15,8 +18,10 @@ app.listen(app.get('port'),()=>{
     console.log("Server Started on port "+app.get('port'))
 })
 
-const routes = require('./routes');
+
 
 app.use('/Images', express.static('./Images'))
 
-app.use(routes);
+app.use('/user',userRoutes);
+app.use('/invoices',invoiceRoutes);
+app.use('/resolution',resolutionRoutes);
