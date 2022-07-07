@@ -2,6 +2,8 @@ var Sequelize = require('sequelize');
 // importing connection database
 var sequelize = require('../database');
 
+
+
 var Invoices = sequelize.define('invoices', {
   id: {
     type: Sequelize.INTEGER,
@@ -18,7 +20,7 @@ var Invoices = sequelize.define('invoices', {
   customeremail: Sequelize.STRING,
   customerwalletaddress: Sequelize.STRING,
   invoicefile : Sequelize.STRING,
-  payment : Sequelize.STRING,
+  payment : Sequelize.BIGINT,
 
 });
 

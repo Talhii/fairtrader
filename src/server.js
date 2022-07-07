@@ -24,4 +24,4 @@ app.use('/Images', express.static('./Images'))
 
 app.use('/user',userRoutes);
 app.use('/invoices',invoiceRoutes);
-app.use('/resolution',resolutionRoutes);
+app.use('/resolutions',resolutionRoutes);

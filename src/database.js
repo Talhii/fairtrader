@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 
 const database = new Sequelize(
-  'userprofile', // name database
+  'fairtrader', // name database
   'root', // user database
   '12345678', // password database
   {

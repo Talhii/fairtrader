@@ -26,17 +26,17 @@ var Invoices = require('../models/Invoices');
 
 // }
 
-invoiceController.create = (req, res) => {
+invoiceController.create = async (req, res) => {
 
     const schema = Joi.object().keys(
         {
             seller: Joi.string().required(),
             country: Joi.string().required(),
-            customeraddress: Joi.string().required(),
             customername: Joi.string().required(),
+            customeraddress: Joi.string().required(),
             customeremail: Joi.string().required(),
             customerwalletaddress: Joi.string().required(),
-            payment: Joi.string().required(),
+            payment: Joi.number().required(),
 
         });
 
@@ -56,9 +56,9 @@ invoiceController.create = (req, res) => {
         try {
             const invoiceNumber = Math.floor(100000 + Math.random() * 900000)
 
-            const response = Invoices.create({
+            const response = await Invoices.create({
                 seller: req.body.seller,
-                invoicenNumber: invoiceNumber,
+                invoicenumber: invoiceNumber,
                 country: req.body.country,
                 customername: req.body.customername,
                 customeraddress: req.body.customeraddress,
@@ -69,7 +69,7 @@ invoiceController.create = (req, res) => {
 
             })
                 .then(function (data) {
-                    const res = { success: true, data: data, message: "created successful" }
+                    const res = { success: true, message: "created successful" }
                     return res;
                 })
                 .catch(error => {
@@ -85,6 +85,7 @@ invoiceController.create = (req, res) => {
 
 
 }
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
