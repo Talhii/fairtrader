@@ -5,7 +5,6 @@ const database = new Sequelize(
   'root', // user database
   process.env.DB_PASSWORD, // password database
   {
-    host: 'ubuntu@ip-172-31-37-152',
     dialect: 'mariadb' // mariadb / sqlite / postgres
   }
 );
