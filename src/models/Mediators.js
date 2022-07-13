@@ -4,77 +4,77 @@ var sequelize = require('../database');
 
 var Mediators = sequelize.define('mediators', {
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
       name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       lastName: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       password: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       businessName: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       businessWebsite: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       cardNumber: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       passport: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       idCard: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       phone: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       documents: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: ""
       },
       city: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       country: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       language: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: ""
       },
       industry: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: ""
       },
       facebookLink: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         defaultValue: "",
       },
       status:{
-        type:DataTypes.INTEGER,
+        type:Sequelize.INTEGER,
         defaultValue:0
       }
 
