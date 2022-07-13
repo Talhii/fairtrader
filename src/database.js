@@ -5,7 +5,6 @@ const database = new Sequelize(
   'root', // user database
   '12345678', // password database
   {
-    host: 'localhost',
     dialect: 'mariadb' // mariadb / sqlite / postgres
   }
 );
