@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 
 const database = new Sequelize(
   'fairtrader', // name database
-  'MariaDB', // user database
+  'root', // user database
   '12345678', // password database
   {
     dialect: 'mariadb' // mariadb / sqlite / postgres
