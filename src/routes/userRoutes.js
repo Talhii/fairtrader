@@ -8,6 +8,8 @@ const userController = require('../controllers/userController')
 // profile routers
 //router.get('/list',userController.list);
 router.post('/createUser',userController.create);
+router.post('/loginUser',userController.login);
+
 router.post('/updateUser',userController.update);
 router.post('/uploadImage',userController.upload , userController.uploadImage);
 router.delete('/deleteImage',userController.deleteImage);

@@ -6,6 +6,12 @@ const path = require('path')
 const Joi = require('joi');
 const userContoller = {}
 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 // import model
 var Users = require('../models/Users');
 
@@ -34,19 +40,7 @@ userContoller.create = async (req, res) => {
     {
 
       walletaddress: Joi.string().required(),
-      country: Joi.string().required(),
-      city: Joi.string().required(),
-      zipcode: Joi.number().required(),
-      language: Joi.string().required(),
-      buisnessname: Joi.string().required(),
-      website: Joi.string().required(),
-      phoneno: Joi.number().required(),
-      postaladdress: Joi.string().required(),
-      facebook: Joi.string().required(),
-      priceperhour: Joi.number().required(),
-      providing: Joi.string().required(),
-      email: Joi.string().email().lowercase().required(),
-      industry: Joi.string().required(),
+
     });
 
 
@@ -67,24 +61,9 @@ userContoller.create = async (req, res) => {
 
       const response = await Users.create({
         walletaddress: req.body.walletaddress,
-        image: "not set",
-        country: req.body.country,
-        city: req.body.city,
-        zipcode: req.body.zipcode,
-        language: req.body.language,
-        buisnessname: req.body.buisnessname,
-        website: req.body.website,
-        phoneno: req.body.phoneno,
-        postaladdress: req.body.postaladdress,
-        facebook: req.body.facebook,
-        priceperhour: req.body.priceperhour,
-        providing: req.body.providing,
-        trustscore: 100,
-        email: req.body.email,
-        industry: req.body.industry
       })
         .then(function (data) {
-          const res = { success: true,  message: "uploaded successful"}
+          const res = { success: true, message: "User creaated successfully" }
           return res;
         })
         .catch(error => {
@@ -96,6 +75,48 @@ userContoller.create = async (req, res) => {
     } catch (e) {
       console.log(e);
     }
+  }
+}
+
+
+//login
+userContoller.login = async (req, res) => {
+
+  const schema = Joi.object().keys(
+    {
+
+      walletaddress: Joi.string().required(),
+
+    });
+
+
+  const validatation = schema.validate(req.body)
+
+  if (validatation.error) {
+
+    res.status(422).json(
+      {
+        status: 'error',
+        message: 'Invalid request data',
+        error: validatation.error
+      });
+    console.log("Invalid Request Data")
+  }
+  else {
+
+    const response = await Users.findOne({
+      where: {
+        walletaddress: req.body.walletaddress,
+      },
+    }).then(function (data) {
+      const res = { success: true, message: "Mediator login successful" }
+      return res;
+    })
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
   }
 }
 
@@ -134,7 +155,7 @@ userContoller.update = async (req, res) => {
       });
     console.log("Invalid Request Data")
   }
-  else{
+  else {
     try {
 
       const response = await Users.update({
@@ -154,7 +175,7 @@ userContoller.update = async (req, res) => {
       }, {
         where: { walletaddress: req.body.walletaddress }
       })
-       .then(function (data) {
+        .then(function (data) {
           const res = { success: true, message: "uploaded successful" }
           return res;
         })
@@ -163,7 +184,7 @@ userContoller.update = async (req, res) => {
           return res;
         })
       res.json(response);
-  
+
     } catch (e) {
       console.log(e);
     }
@@ -476,7 +497,7 @@ userContoller.deleteImage = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'Images')
+    cb(null, 'Images/User')
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname))
