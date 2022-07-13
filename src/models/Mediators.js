@@ -80,4 +80,4 @@ var Mediators = sequelize.define('mediators', {
 
 });
 
-module.exports = Users
+module.exports = Mediators
