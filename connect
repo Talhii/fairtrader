@@ -1,1 +1,1 @@
-ssh -i "pem/MyAwsUbuntuServer.pem" ubuntu@ec2-34-197-13-155.compute-1.amazonaws.com
+ssh -i "MyAwsUbuntuServer.pem" ubuntu@ec2-34-197-13-155.compute-1.amazonaws.com
