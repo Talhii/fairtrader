@@ -1,4 +1,11 @@
 const express = require('express')
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const morgan = require("morgan");
+
+require('dotenv/config')
+
+
 const userRoutes = require('./routes/userRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const resolutionRoutes = require('./routes/resolutionRoutes');
@@ -23,6 +30,21 @@ app.listen(app.get('port'),()=>{
     console.log("Server Started on port "+app.get('port'))
 })
 
+
+app.use(morgan("dev"));
+app.use(cors());
+app.options("*", cors());
+
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 
 app.use('/Images', express.static('./Images'))
