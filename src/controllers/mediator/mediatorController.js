@@ -25,7 +25,7 @@ mediatorContoller.signup = async (req, res) => {
             email: Joi.string().email().lowercase().required(),
             password: Joi.string().required(),
             name: Joi.string().required(),
-            lastName: Joi.string().required(),
+             lastName: Joi.string().required(),
         });
 
 
@@ -83,7 +83,7 @@ mediatorContoller.login = async (req, res) => {
         const password_valid = await bcrypt.compare(req.body.password, mediator.password);
         if (password_valid) {
 
-            const token = jwt.sign({ "id": mediator.id, "email": mediator.email }, "Secret");
+            const token = jwt.sign({ "id": mediator.id, "email": mediator.email }, process.env.SECRET);
             res.status(200).json({ token: token });
         } else {
             res.status(400).json({ error: "Password Incorrect" });

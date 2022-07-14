@@ -36,10 +36,10 @@ contractController.create = async (req, res) => {
         try {
 
             const response = await Contracts.create({
-                termsandconditionsfile: req.files.termsandconditionsfile[0],
-                warrantyfile: req.files.warrantyfile[0],
+                termsandconditionsfile: req.files.termsandconditionsfile[0].path,
+                warrantyfile: req.files.warrantyfile[0].path,
                 responsetime: req.body.responsetime,
-                attachfiles:req.files.attachfiles[0],
+                attachfiles:req.files.attachfiles[0].path,
                 apealtime: req.body.apealtime,
                 ftpterms: req.body.ftpterms,
                 applytoallinvoices: req.body.applytoallinvoices,

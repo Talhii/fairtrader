@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
+const jwt = require('jsonwebtoken')
+
+const mediatorController = require('./controllers/mediator/mediatorController');
 
 require('dotenv/config')
 
@@ -16,6 +19,8 @@ const resetPasswordRoutes = require('./routes/resetPasswordRoutes');
 
 
 const app = express()
+
+
 
 app.set('port', process.env.PORT || 3000)
 
@@ -47,10 +52,31 @@ app.use(
 );
 
 
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.SECRET, (err, user) => {
+      console.log(err)
+      if (err) return res.sendStatus(403)
+      req.user = user
+      next()
+    })
+  }
+
+
+
 app.use('/Images', express.static('./Images'))
 
 app.use('/user',userRoutes);
-app.use('/mediator',mediatorRoutes);
+
+
+app.use('/mediator',authenticateToken,mediatorRoutes);
+
+app.use('/loginMediator',mediatorController.login);
+app.use('/regsiterMediator',mediatorController.signup);
+
 app.use('/contract',contractRoutes);
 app.use('/resetPassword', resetPasswordRoutes);
 app.use('/invoices',invoiceRoutes);

@@ -109,7 +109,7 @@ userContoller.login = async (req, res) => {
         walletaddress: req.body.walletaddress,
       },
     }).then(function (data) {
-      const res = { success: true, message: "Mediator login successful" }
+      const res = { success: true, message: "login successful" }
       return res;
     })
       .catch(error => {
