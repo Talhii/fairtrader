@@ -127,18 +127,18 @@ userContoller.update = async (req, res) => {
     {
 
       walletaddress: Joi.string().required(),
-      country: Joi.string().required(),
-      city: Joi.string().required(),
-      zipcode: Joi.number().required(),
-      language: Joi.string().required(),
-      buisnessname: Joi.string().required(),
-      website: Joi.string().required(),
-      phoneno: Joi.number().required(),
-      postaladdress: Joi.string().required(),
-      facebook: Joi.string().required(),
-      priceperhour: Joi.number().required(),
-      providing: Joi.string().required(),
-      email: Joi.string().email().lowercase().required(),
+      country: Joi.string(),
+      city: Joi.string(),
+      zipcode: Joi.number(),
+      language: Joi.string(),
+      buisnessname: Joi.string(),
+      website: Joi.string(),
+      phoneno: Joi.number(),
+      postaladdress: Joi.string(),
+      facebook: Joi.string(),
+      priceperhour: Joi.number(),
+      providing: Joi.string(),
+      email: Joi.string().email().lowercase(),
       industry: Joi.string().required(),
     });
 
@@ -176,7 +176,7 @@ userContoller.update = async (req, res) => {
         where: { walletaddress: req.body.walletaddress }
       })
         .then(function (data) {
-          const res = { success: true, message: "uploaded successful" }
+          const res = { success: true, message: "Update successful" }
           return res;
         })
         .catch(error => {

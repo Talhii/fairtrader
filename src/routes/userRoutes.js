@@ -10,7 +10,7 @@ const userController = require('../controllers/userController')
 router.post('/createUser',userController.create);
 router.post('/loginUser',userController.login);
 
-router.post('/updateUser',userController.update);
+router.put('/updateUser',userController.update);
 router.post('/uploadImage',userController.upload , userController.uploadImage);
 router.delete('/deleteImage',userController.deleteImage);
 
