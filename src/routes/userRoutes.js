@@ -21,7 +21,7 @@ router.get('/searchUsersByEmail',userController.searchUsersByEmail);
 router.get('/searchUsersByLookingFor',userController.searchUsersByLookingFor);
 router.get('/displayUserBySearchPreference',userController.displayUserBySearchPreference);
 
-router.get('/searchUsersByWallet',userController.searchUsersByWallet);
+router.get('/searchUsersByWallet/:walletaddress',userController.searchUsersByWallet);
 router.get('/getUsersByWallet',userController.searchUsersByWallet);
 router.get('/getUsersDataByWalletAddress',userController.searchUsersByWallet);
 

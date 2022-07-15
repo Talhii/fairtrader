@@ -297,46 +297,25 @@ userContoller.searchUsersByIndustry = async (req, res) => {
 //search a single user by their wallet address
 userContoller.searchUsersByWallet = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
-      walletaddress: Joi.string().required(),
-    });
+  try {
 
-
-  const validatation = schema.validate(req.body)
-
-  if (validatation.error) {
-
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
-
-  else {
-    try {
-
-      const response = await Users.findAll({
-        where: {
-          walletaddress: req.body.walletaddress,
-        }
+    const response = await Users.findAll({
+      where: {
+        walletaddress: req.params.walletaddress,
+      }
+    })
+      .then(function (data) {
+        const res = { success: true, data: data }
+        return res;
       })
-        .then(function (data) {
-          const res = { success: true, data: data }
-          return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
-          return res;
-        })
-      res.json(response);
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
