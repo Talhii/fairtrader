@@ -25,7 +25,7 @@ mediatorContoller.signup = async (req, res) => {
             email: Joi.string().email().lowercase().required(),
             password: Joi.string().required(),
             name: Joi.string().required(),
-             lastName: Joi.string().required(),
+            lastName: Joi.string().required(),
         });
 
 

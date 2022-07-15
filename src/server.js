@@ -75,7 +75,7 @@ app.use('/user',userRoutes);
 app.use('/mediator',authenticateToken,mediatorRoutes);
 
 app.use('/loginMediator',mediatorController.login);
-app.use('/regsiterMediator',mediatorController.signup);
+app.use('/registerMediator',mediatorController.signup);
 
 app.use('/contract',contractRoutes);
 app.use('/resetPassword', resetPasswordRoutes);
