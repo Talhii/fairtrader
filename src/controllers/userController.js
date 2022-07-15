@@ -251,46 +251,25 @@ userContoller.searchUsers = async (req, res) => {
 // search all users by just industry type
 userContoller.searchUsersByIndustry = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
-      industry: Joi.string().required(),
-    });
+  try {
 
-
-  const validatation = schema.validate(req.body)
-
-  if (validatation.error) {
-
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
-
-  else {
-    try {
-
-      const response = await Users.findAll({
-        where: {
-          industry: req.body.industry,
-        }
+    const response = await Users.findAll({
+      where: {
+        industry: req.params.industry,
+      }
+    })
+      .then(function (data) {
+        const res = { success: true, data: data }
+        return res;
       })
-        .then(function (data) {
-          const res = { success: true, data: data }
-          return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
-          return res;
-        })
-      res.json(response);
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -322,46 +301,25 @@ userContoller.searchUsersByWallet = async (req, res) => {
 // search a single user by their email
 userContoller.searchUsersByEmail = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
-      email: Joi.string().email().lowercase().required(),
-    });
+  try {
 
-
-  const validatation = schema.validate(req.body)
-
-  if (validatation.error) {
-
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
-
-  else {
-    try {
-
-      const response = await Users.findAll({
-        where: {
-          email: req.body.email,
-        }
+    const response = await Users.findAll({
+      where: {
+        email: req.params.email,
+      }
+    })
+      .then(function (data) {
+        const res = { success: true, data: data }
+        return res;
       })
-        .then(function (data) {
-          const res = { success: true, data: data }
-          return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
-          return res;
-        })
-      res.json(response);
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -369,45 +327,25 @@ userContoller.searchUsersByEmail = async (req, res) => {
 // search users on their providings ( services / goods / mediator)
 userContoller.searchUsersByLookingFor = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
-      providing: Joi.string().required(),
-    });
+  try {
 
-
-  const validatation = schema.validate(req.body)
-
-  if (validatation.error) {
-
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
-  else {
-    try {
-
-      const response = await Users.findAll({
-        where: {
-          providing: req.body.providing,
-        }
+    const response = await Users.findAll({
+      where: {
+        providing: req.params.providing,
+      }
+    })
+      .then(function (data) {
+        const res = { success: true, data: data }
+        return res;
       })
-        .then(function (data) {
-          const res = { success: true, data: data }
-          return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
-          return res;
-        })
-      res.json(response);
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
