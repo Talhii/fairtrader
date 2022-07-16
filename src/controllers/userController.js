@@ -5,6 +5,7 @@ const path = require('path')
 
 const Joi = require('joi');
 const userContoller = {}
+const fs = require('fs')
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -123,71 +124,38 @@ userContoller.login = async (req, res) => {
 //update user profile
 userContoller.update = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
 
-      walletaddress: Joi.string().required(),
-      country: Joi.string(),
-      city: Joi.string(),
-      zipcode: Joi.number(),
-      language: Joi.string(),
-      buisnessname: Joi.string(),
-      website: Joi.string(),
-      phoneno: Joi.number(),
-      postaladdress: Joi.string(),
-      facebook: Joi.string(),
-      priceperhour: Joi.number(),
-      providing: Joi.string(),
-      email: Joi.string().email().lowercase(),
-      industry: Joi.string().required(),
-    });
+  try {
 
-
-  const validatation = schema.validate(req.body)
-
-  if (validatation.error) {
-
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
-  else {
-    try {
-
-      const response = await Users.update({
-        country: req.body.country,
-        city: req.body.city,
-        zipcode: req.body.zipcode,
-        language: req.body.language,
-        buisnessname: req.body.buisnessname,
-        website: req.body.website,
-        phoneno: req.body.phoneno,
-        postaladdress: req.body.postaladdress,
-        facebook: req.body.facebook,
-        priceperhour: req.body.priceperhour,
-        providing: req.body.providing,
-        email: req.body.email,
-        industry: req.body.industry
-      }, {
-        where: { walletaddress: req.body.walletaddress }
+    const response = await Users.update({
+      country: req.body.country,
+      city: req.body.city,
+      zipcode: req.body.zipcode,
+      language: req.body.language,
+      buisnessname: req.body.buisnessname,
+      website: req.body.website,
+      phoneno: req.body.phoneno,
+      postaladdress: req.body.postaladdress,
+      facebook: req.body.facebook,
+      priceperhour: req.body.priceperhour,
+      providing: req.body.providing,
+      email: req.body.email,
+      industry: req.body.industry
+    }, {
+      where: { walletaddress: req.body.walletaddress }
+    })
+      .then(function (data) {
+        const res = { success: true, message: "Update successful" }
+        return res;
       })
-        .then(function (data) {
-          const res = { success: true, message: "Update successful" }
-          return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
-          return res;
-        })
-      res.json(response);
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -392,6 +360,26 @@ userContoller.deleteImage = async (req, res) => {
 
   try {
 
+    Users.findAll({
+      where: {
+        walletaddress: req.body.walletaddress,
+      }
+    })
+      .then(function (data) {
+        const path = data.image
+        fs.unlink(path, (err) => {
+          if (err) {
+            console.error(err)
+            return
+          }
+        })
+        return res;
+      })
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+
     const response = await Users.update({
       image: "not set",
     }, {
@@ -423,7 +411,7 @@ const storage = multer.diskStorage({
 
 userContoller.upload = multer({
   storage: storage,
-  limits: { fileSize: '1000000' },
+  limits: { fileSize: '5242880' },
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png|gif/
     const mimeType = fileTypes.test(file.mimetype)

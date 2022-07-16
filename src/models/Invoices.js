@@ -10,7 +10,7 @@ var Invoices = sequelize.define('invoices', {
     primaryKey: true,
     autoIncrement: true,
   },
-  seller : Sequelize.STRING,
+  sellerwalletaddress : Sequelize.STRING,
   invoicenumber: {
     type: Sequelize.BIGINT,
     unique: true

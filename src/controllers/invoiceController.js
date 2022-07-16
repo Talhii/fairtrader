@@ -31,7 +31,6 @@ invoiceController.create = async (req, res) => {
     const schema = Joi.object().keys(
         {
             seller: Joi.string().required(),
-            country: Joi.string().required(),
             customername: Joi.string().required(),
             customeraddress: Joi.string().required(),
             customeremail: Joi.string().required(),
@@ -57,9 +56,8 @@ invoiceController.create = async (req, res) => {
             const invoiceNumber = Math.floor(100000 + Math.random() * 900000)
 
             const response = await Invoices.create({
-                seller: req.body.seller,
+                sellerwalletaddress: req.body.sellerwalletaddress,
                 invoicenumber: invoiceNumber,
-                country: req.body.country,
                 customername: req.body.customername,
                 customeraddress: req.body.customeraddress,
                 customeremail: req.body.customeremail,
@@ -98,7 +96,7 @@ const storage = multer.diskStorage({
 
 invoiceController.upload = multer({
     storage: storage,
-    limits: { fileSize: '1000000' },
+    limits: { fileSize: '5242880' },
     fileFilter: (req, file, cb) => {
         const fileTypes = /pdf|docx|doc/
         const mimeType = fileTypes.test(file.mimetype)
