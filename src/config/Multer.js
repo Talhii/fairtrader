@@ -1,4 +1,5 @@
 const multer = require("multer");
+const path = require('path')
 
 const file_type = {
   "image/jpg": "jpg",
@@ -20,7 +21,7 @@ const storage = multer.diskStorage({
     const fileT = file_type[file.mimetype];
     const fileName = `${file.originalname
       }`;
-    cd(null, fileName);
+    cd(null, Date.now() + path.extname(file.originalname));
   },
 });
 

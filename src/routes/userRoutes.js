@@ -15,7 +15,7 @@ router.put('/uploadImage',userController.upload , userController.uploadImage);
 router.delete('/deleteImage',userController.deleteImage);
 
 //search and display
-router.post('/searchUsers',userController.searchUsers);
+router.get('/searchUsers',userController.searchUsers);
 router.get('/searchUsersByIndustry/:industry',userController.searchUsersByIndustry);
 router.get('/searchUsersByEmail/:email',userController.searchUsersByEmail);
 router.get('/searchUsersByLookingFor/:providing',userController.searchUsersByLookingFor);

@@ -15,6 +15,7 @@ dotenv.config();
 
 // import model
 var Users = require('../models/Users');
+const { where } = require('sequelize');
 
 //const { Op } = require("sequelize");
 
@@ -109,9 +110,15 @@ userContoller.login = async (req, res) => {
       where: {
         walletaddress: req.body.walletaddress,
       },
-    }).then(function (data) {
-      const res = { success: true, message: "login successful" }
-      return res;
+    }).then(data => {
+      if (data != null) {
+        const res = { success: true, message: "login successful" }
+        return res;
+      }
+      else {
+        const res = { success: false, message: "user not found with this wallet address" }
+        return res;
+      }
     })
       .catch(error => {
         const res = { success: false, error: error }
@@ -127,26 +134,18 @@ userContoller.update = async (req, res) => {
 
   try {
 
-    const response = await Users.update({
-      country: req.body.country,
-      city: req.body.city,
-      zipcode: req.body.zipcode,
-      language: req.body.language,
-      buisnessname: req.body.buisnessname,
-      website: req.body.website,
-      phoneno: req.body.phoneno,
-      postaladdress: req.body.postaladdress,
-      facebook: req.body.facebook,
-      priceperhour: req.body.priceperhour,
-      providing: req.body.providing,
-      email: req.body.email,
-      industry: req.body.industry
-    }, {
+    const response = await Users.update(req.body, {
       where: { walletaddress: req.body.walletaddress }
     })
-      .then(function (data) {
-        const res = { success: true, message: "Update successful" }
-        return res;
+      .then(data => {
+        if (data == 1) {
+          const res = { success: true, message: "updated successful" }
+          return res;
+        }
+        else {
+          const res = { success: false, message: "Not found" }
+          return res;
+        }
       })
       .catch(error => {
         const res = { success: false, error: error }
@@ -163,57 +162,49 @@ userContoller.update = async (req, res) => {
 // search all users on the basis of four parameters ( country , city , zipcode , language)
 userContoller.searchUsers = async (req, res) => {
 
-  const schema = Joi.object().keys(
-    {
-      country: Joi.string().required(),
-      city: Joi.string().required(),
-      zipcode: Joi.number().required(),
-      language: Joi.string().required(),
-    });
+  try {
 
 
-  const validatation = schema.validate(req.body)
+    const response = await Users.findAll({
 
-  if (validatation.error) {
+      where: {
 
-    res.status(422).json(
-      {
-        status: 'error',
-        message: 'Invalid request data',
-        error: validatation.error
-      });
-    console.log("Invalid Request Data")
-  }
+        country: req.body.country,
+        city: req.body.city,
+        zipcode: req.body.zipcode,
+        language: req.body.language,
+        buisnessname: req.body.buisnessname,
+        website: req.body.website,
+        phoneno: req.body.phoneno,
+        postaladdress: req.body.postaladdress,
+        facebook: req.body.facebook,
+        priceperhour: req.body.priceperhour,
+        providing: req.body.providing,
+        email: req.body.email,
+        industry: req.body.industry
 
-  else {
+      }
+    })
+      .then(data => {
 
-    try {
-
-      const response = await Users.findAll({
-        where: {
-
-          country: req.body.country,
-          city: req.body.city,
-          zipcode: req.body.zipcode,
-          language: req.body.language
-
-        }
-      })
-        .then(function (data) {
+        if (data != "") {
           const res = { success: true, data: data }
           return res;
-        })
-        .catch(error => {
-          const res = { success: false, error: error }
+        }
+        else {
+          const res = { success: false, message: "Not found" }
           return res;
-        })
-      res.json(response);
+        }
+      })
+      .catch(error => {
+        const res = { success: false, error: error }
+        return res;
+      })
+    res.json(response);
 
-    } catch (e) {
-      console.log(e);
-    }
+  } catch (e) {
+    console.log(e);
   }
-
 }
 
 // search all users by just industry type
@@ -226,9 +217,15 @@ userContoller.searchUsersByIndustry = async (req, res) => {
         industry: req.params.industry,
       }
     })
-      .then(function (data) {
-        const res = { success: true, data: data }
-        return res;
+      .then(data => {
+        if (data != "") {
+          const res = { success: true, data: data }
+          return res;
+        }
+        else {
+          const res = { success: false, message: "Not found" }
+          return res;
+        }
       })
       .catch(error => {
         const res = { success: false, error: error }
@@ -251,9 +248,15 @@ userContoller.searchUsersByWallet = async (req, res) => {
         walletaddress: req.params.walletaddress,
       }
     })
-      .then(function (data) {
-        const res = { success: true, data: data }
-        return res;
+      .then(data => {
+        if (data != "") {
+          const res = { success: true, data: data }
+          return res;
+        }
+        else {
+          const res = { success: false, message: "Not found" }
+          return res;
+        }
       })
       .catch(error => {
         const res = { success: false, error: error }
@@ -276,9 +279,15 @@ userContoller.searchUsersByEmail = async (req, res) => {
         email: req.params.email,
       }
     })
-      .then(function (data) {
-        const res = { success: true, data: data }
-        return res;
+      .then(data => {
+        if (data != "") {
+          const res = { success: true, data: data }
+          return res;
+        }
+        else {
+          const res = { success: false, message: "Not found" }
+          return res;
+        }
       })
       .catch(error => {
         const res = { success: false, error: error }
@@ -302,9 +311,15 @@ userContoller.searchUsersByLookingFor = async (req, res) => {
         providing: req.params.providing,
       }
     })
-      .then(function (data) {
-        const res = { success: true, data: data }
-        return res;
+      .then(data => {
+        if (data != "") {
+          const res = { success: true, data: data }
+          return res;
+        }
+        else {
+          const res = { success: false, message: "Not found" }
+          return res;
+        }
       })
       .catch(error => {
         const res = { success: false, error: error }
@@ -358,46 +373,47 @@ userContoller.displayUserBySearchPreference = async (req, res) => {
 
 userContoller.deleteImage = async (req, res) => {
 
-  try {
 
-    Users.findAll({
-      where: {
-        walletaddress: req.body.walletaddress,
+  const response = await Users.findOne({
+    where: {
+      walletaddress: req.body.walletaddress
+    }
+  }).then(data => {
+    if (data != "") {
+
+      if (data.image != "") {
+
+        fs.unlink(data.image, function (err) {
+          if (err) throw err;
+          console.log('File deleted!');
+          Users.update({
+            image: "",
+          }, {
+            where: { walletaddress: req.body.walletaddress }
+          })
+        });
+
+        const res = { success: true, message: "Image Deleted Successfully" }
+        return res;
       }
-    })
-      .then(function (data) {
-        const path = data.image
-        fs.unlink(path, (err) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-        })
+      else{
+        const res = { success: false, message: "Image not uplaoded of the user" }
         return res;
-      })
-      .catch(error => {
-        const res = { success: false, error: error }
-        return res;
-      })
+      }
 
-    const response = await Users.update({
-      image: "not set",
-    }, {
-      where: { walletaddress: req.body.walletaddress }
-    })
-      .then(function (data) {
-        const res = { success: true, message: "Deleted successful" }
-        return res;
-      })
-      .catch(error => {
-        const res = { success: false, error: error }
-        return res;
-      })
-    res.json(response);
 
-  } catch (e) {
-    console.log(e);
-  }
+    }
+    else {
+      const res = { success: false, message: "Wallet address not found" }
+      return res;
+    }
+  })
+    .catch(error => {
+      const res = { success: false, error: error }
+      return res;
+    })
+
+  res.json(response)
 }
 
 const storage = multer.diskStorage({

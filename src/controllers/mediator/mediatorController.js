@@ -1,5 +1,6 @@
 const Joi = require('joi');
 
+const fs = require('fs')
 const axios = require("axios");
 
 const bcrypt = require('bcrypt');
@@ -155,8 +156,7 @@ mediatorContoller.PassportGet = (req, res) => {
 mediatorContoller.PassportController = async (req, res) => {
     Mediators.update(
         {
-            passport: `${req.protocol}://${req.get("host")}/Images/Mediator/${req.files[0].filename
-                }`,
+            passport: req.files[0].path,
         },
         {
             where: {
@@ -180,28 +180,46 @@ mediatorContoller.PassportController = async (req, res) => {
 };
 
 mediatorContoller.PassportDelete = async (req, res) => {
-    Mediators.update(
-        {
-            passport: "",
-        },
-        {
-            where: {
-                id: req.params.id,
-            },
+    const response = await Mediators.findOne({
+        where: {
+          id: req.params.id
         }
-    )
-        .then(() => {
-            res.send({
-                msg: "image removed"
-            })
+      }).then(data => {
+        if (data != "") {
 
-        })
-        .catch((err) => {
-            res.status(400).send({
-                message: new Error(err.message),
-                msg: err.message
+          if (data.passport != "") {
+    
+            fs.unlink(data.passport, function (err) {
+              if (err) throw console.log(err);
+              console.log('File deleted!');
+              Mediators.update({
+                passport: "",
+              }, {
+                where: { id: req.params.id }
+              })
             });
-        });
+    
+            const res = { success: true, message: "Passport deleted Successfully" }
+            return res;
+          }
+          else{
+            const res = { success: false, message: "Passport already not uplaoded" }
+            return res;
+          }
+    
+    
+        }
+        else {
+          const res = { success: false, message: "id not found" }
+          return res;
+        }
+      })
+        .catch(error => {
+          const res = { success: false, error: error }
+          return res;
+        })
+    
+      res.json(response)
 };
 
 
@@ -276,7 +294,7 @@ mediatorContoller.DocumentsController = async (req, res) => {
 
     Mediators.update(
         {
-            documents: `${req.protocol}://${req.get("host")}/Images/Mediator/${req.files[0].filename}`,
+            documents: req.files[0].path
         },
         {
             where: {
@@ -299,28 +317,50 @@ mediatorContoller.DocumentsController = async (req, res) => {
 };
 
 mediatorContoller.DocumentsDelete = async (req, res) => {
-    Mediators.update(
-        {
-            documents: "",
-        },
-        {
-            where: {
-                id: req.params.id,
-            },
-        }
-    )
-        .then(() => {
-            res.send({
-                msg: "image removed"
-            })
 
-        })
-        .catch((err) => {
-            res.status(400).send({
-                message: new Error(err.message),
-                msg: err.message
+
+    const response = await Mediators.findOne({
+        where: {
+          id: req.params.id
+        }
+      }).then(data => {
+        if (data != "") {
+
+          if (data.documents != "") {
+
+    
+            fs.unlink(data.documents, function (err) {
+              if (err) throw console.log(err);
+              console.log('File deleted!');
+              Mediators.update({
+                documents: "",
+              }, {
+                where: { id: req.params.id }
+              })
             });
-        });
+    
+            const res = { success: true, message: "Image Deleted Successfully" }
+            return res;
+          }
+          else{
+            const res = { success: false, message: "Image not uplaoded of the user" }
+            return res;
+          }
+    
+    
+        }
+        else {
+          const res = { success: false, message: "id not found" }
+          return res;
+        }
+      })
+        .catch(error => {
+          const res = { success: false, error: error }
+          return res;
+        })
+    
+      res.json(response)
+    
 };
 
 
@@ -341,8 +381,7 @@ mediatorContoller.IdCardGet = (req, res) => {
 mediatorContoller.IdCardController = async (req, res) => {
     Mediators.update(
         {
-            idCard: `${req.protocol}://${req.get("host")}/Images/Mediator/${req.files[0].filename
-                }`,
+            idCard: req.files[0].path,
         },
         {
             where: {
@@ -366,28 +405,46 @@ mediatorContoller.IdCardController = async (req, res) => {
 };
 
 mediatorContoller.IdCardDelete = async (req, res) => {
-    Mediators.update(
-        {
-            idCard: "",
-        },
-        {
-            where: {
-                id: req.params.id,
-            },
+    const response = await Mediators.findOne({
+        where: {
+          id: req.params.id
         }
-    )
-        .then(() => {
-            res.send({
-                msg: "image removed"
-            })
+      }).then(data => {
+        if (data != "") {
 
-        })
-        .catch((err) => {
-            res.status(400).send({
-                message: new Error(err.message),
-                msg: err.message
+          if (data.idCard != "") {
+    
+            fs.unlink(data.idCard, function (err) {
+              if (err) throw console.log(err);
+              console.log('File deleted!');
+              Mediators.update({
+                idCard: "",
+              }, {
+                where: { id: req.params.id }
+              })
             });
-        });
+    
+            const res = { success: true, message: "IDCard Deleted Successfully" }
+            return res;
+          }
+          else{
+            const res = { success: false, message: "IdCard already not uplaoded" }
+            return res;
+          }
+    
+    
+        }
+        else {
+          const res = { success: false, message: "id not found" }
+          return res;
+        }
+      })
+        .catch(error => {
+          const res = { success: false, error: error }
+          return res;
+        })
+    
+      res.json(response)
 };
 
 

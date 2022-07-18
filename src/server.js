@@ -31,8 +31,8 @@ app.use(express.json())
 // })
 
 
-app.listen(app.get('port'),()=>{
-    console.log("Server Started on port "+app.get('port'))
+app.listen(app.get('port'), () => {
+  console.log("Server Started on port " + app.get('port'))
 })
 
 
@@ -53,31 +53,31 @@ app.use(
 
 
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-  
-    jwt.verify(token, process.env.SECRET, (err, user) => {
-      console.log(err)
-      if (err) return res.sendStatus(403)
-      req.user = user
-      next()
-    })
-  }
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.SECRET, (err, user) => {
+    console.log(err)
+    if (err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
 
 
 
 app.use('/Images', express.static('./Images'))
 
-app.use('/user',userRoutes);
+app.use('/user', userRoutes);
 
 
-app.use('/mediator',authenticateToken,mediatorRoutes);
+app.use('/mediator', authenticateToken, mediatorRoutes);
 
-app.use('/loginMediator',mediatorController.login);
-app.use('/registerMediator',mediatorController.signup);
+app.use('/loginMediator', mediatorController.login);
+app.use('/registerMediator', mediatorController.signup);
 
-app.use('/contract',contractRoutes);
+app.use('/contract', contractRoutes);
 app.use('/resetPassword', resetPasswordRoutes);
-app.use('/invoices',invoiceRoutes);
-app.use('/resolutions',resolutionRoutes);
+app.use('/invoices', invoiceRoutes);
+app.use('/resolutions', resolutionRoutes);

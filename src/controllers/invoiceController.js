@@ -30,12 +30,13 @@ invoiceController.create = async (req, res) => {
 
     const schema = Joi.object().keys(
         {
-            seller: Joi.string().required(),
+
+            sellerwalletaddress: Joi.string().required(),
             customername: Joi.string().required(),
             customeraddress: Joi.string().required(),
             customeremail: Joi.string().required(),
             customerwalletaddress: Joi.string().required(),
-            payment: Joi.number().required(),
+            payment: Joi.string().required(),
 
         });
 

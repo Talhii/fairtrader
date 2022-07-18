@@ -20,7 +20,7 @@ var Invoices = sequelize.define('invoices', {
   customeremail: Sequelize.STRING,
   customerwalletaddress: Sequelize.STRING,
   invoicefile : Sequelize.STRING,
-  payment : Sequelize.BIGINT,
+  payment : Sequelize.STRING,
 
 });
 
