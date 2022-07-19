@@ -9,22 +9,6 @@ const invoiceController = {}
 // import model
 var Invoices = require('../models/Invoices');
 
-//const { Op } = require("sequelize");
-
-// invoiceController.list = async (req, res) => {
-
-//   const response = await Invoices.findAll()
-//   .then(function(data){
-//     const res = { success: true, data: data }
-//     return res;
-//   })
-//   .catch(error =>{
-//     const res = { success: false, error: error }
-//     return res;
-//   })
-//   res.json(response);
-
-// }
 
 invoiceController.create = async (req, res) => {
 
@@ -81,10 +65,7 @@ invoiceController.create = async (req, res) => {
             console.log(e);
         }
     }
-
-
 }
-
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -110,29 +91,5 @@ invoiceController.upload = multer({
     }
 }).single('invoicefile')
 
-
-// invoiceController.uploadInvoice = async (req, res) => {
-
-//     try {
-//         const response = await Invoices.update({
-//             invoicefile: req.file.path
-//         }, {
-//             where: { invoiceNumber: req.body.invoiceNumber }
-//         })
-//             .then(function (data) {
-//                 const res = { success: true, data: data, message: "uploaded successful" }
-//                 return res;
-//             })
-//             .catch(error => {
-//                 const res = { success: false, error: error }
-//                 return res;
-//             })
-//         res.json(response);
-
-//     } catch (e) {
-//         console.log(e);
-//     }
-
-// }
 
 module.exports = invoiceController;

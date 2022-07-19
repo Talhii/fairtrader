@@ -21,6 +21,10 @@ var Invoices = sequelize.define('invoices', {
   customerwalletaddress: Sequelize.STRING,
   invoicefile : Sequelize.STRING,
   payment : Sequelize.STRING,
+  paidstatus :{
+    type : Sequelize.BOOLEAN,
+    defaultValue : false
+  } 
 
 });
 

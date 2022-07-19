@@ -16,10 +16,6 @@ router.delete('/deleteImage',userController.deleteImage);
 
 //search and display
 router.get('/searchUsers',userController.searchUsers);
-router.get('/searchUsersByIndustry/:industry',userController.searchUsersByIndustry);
-router.get('/searchUsersByEmail/:email',userController.searchUsersByEmail);
-router.get('/searchUsersByLookingFor/:providing',userController.searchUsersByLookingFor);
-router.get('/displayUserBySearchPreference',userController.displayUserBySearchPreference);
 
 router.get('/searchUsersByWallet/:walletaddress',userController.searchUsersByWallet);
 router.get('/getUsersByWallet/:walletaddress',userController.searchUsersByWallet);

@@ -164,37 +164,15 @@ userContoller.searchUsers = async (req, res) => {
 
   try {
 
-
     const response = await Users.findAll({
-
-      where: {
-
-        country: req.body.country,
-        city: req.body.city,
-        zipcode: req.body.zipcode,
-        language: req.body.language,
-        buisnessname: req.body.buisnessname,
-        website: req.body.website,
-        phoneno: req.body.phoneno,
-        postaladdress: req.body.postaladdress,
-        facebook: req.body.facebook,
-        priceperhour: req.body.priceperhour,
-        providing: req.body.providing,
-        email: req.body.email,
-        industry: req.body.industry
-
-      }
+      where: req.body
     })
       .then(data => {
 
-        if (data != "") {
           const res = { success: true, data: data }
           return res;
-        }
-        else {
-          const res = { success: false, message: "Not found" }
-          return res;
-        }
+        
+        
       })
       .catch(error => {
         const res = { success: false, error: error }
