@@ -5,7 +5,7 @@ var sequelize = require('../database');
 var Invoices = require('./Invoices');
 
 
-var resolution = sequelize.define('resolution', {
+var Resolutions = sequelize.define('resolution', {
   
   id: {
     type: Sequelize.INTEGER,
@@ -19,9 +19,7 @@ var resolution = sequelize.define('resolution', {
   
 });
 
-resolution.belongsTo(Invoices, {
-  foreignKey: "foreign_id",
-  targetKey: "invoicenumber",
-});
+Resolutions.belongsTo(Invoices);
+Invoices.hasOne(Resolutions)
 
-module.exports = resolution
+module.exports = Resolutions

@@ -15,7 +15,7 @@ router.put('/uploadImage',userController.upload , userController.uploadImage);
 router.delete('/deleteImage',userController.deleteImage);
 
 //search and display
-router.get('/searchUsers',userController.searchUsers);
+router.post('/searchUsers',userController.searchUsers);
 
 router.get('/searchUsersByWallet/:walletaddress',userController.searchUsersByWallet);
 router.get('/getUsersByWallet/:walletaddress',userController.searchUsersByWallet);

@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 // importing connection database
 var sequelize = require('../database');
+const Invoices = require('./Invoices');
 
 var Users = require('./Users')
 
@@ -22,14 +23,8 @@ var Contracts = sequelize.define('contracts', {
 
 });
 
-Contracts.belongsTo(Users, {
-  foreignKey: "sellerid",
-  targetKey: "id",
-});
 
-Contracts.belongsTo(Users, {
-  foreignKey: "buyerid",
-  targetKey: "id",
-});
+Contracts.belongsTo(Invoices);
+Invoices.hasOne(Contracts)
 
 module.exports = Contracts

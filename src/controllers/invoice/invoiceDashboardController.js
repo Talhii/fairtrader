@@ -3,7 +3,7 @@ const Joi = require('joi');
 const invoiceDashboardController = {}
 
 // import model
-var Invoices = require('../models/Invoices');
+var Invoices = require('../../models/Invoices');
 
 
 invoiceDashboardController.history = async (req, res) => {
@@ -46,7 +46,7 @@ invoiceDashboardController.history = async (req, res) => {
                             }
                         }
                     );
-                    const res = { success: true, data: {notpaid : notPaidCount , total : totalCount} }
+                    const res = { success: true, data: { notpaid: notPaidCount, total: totalCount } }
                     return res;
                 })
                 .catch(error => {
@@ -55,39 +55,36 @@ invoiceDashboardController.history = async (req, res) => {
                 })
 
 
-                const response2 = await Invoices.findAll({
-                    sellerwalletaddress: req.body.walletaddress,
-                })
-                    .then(function (data) {
-    
-                        var notPaidCount = 0
-                        var paidCount = 0
-    
-                        data.forEach(
-                            (invoices) => {
-    
-                                if (invoices.paidstatus == false) {
-    
-                                    notPaidCount = notPaidCount + 1;
-                                }
-                                else{
-                                    paidCount = paidCount + 1
-                                }
+            const response2 = await Invoices.findAll({
+                sellerwalletaddress: req.body.walletaddress,
+            })
+                .then(function (data) {
+
+                    var notPaidCount = 0
+                    var paidCount = 0
+
+                    data.forEach(
+                        (invoices) => {
+
+                            if (invoices.paidstatus == false) {
+
+                                notPaidCount = notPaidCount + 1;
                             }
-                        );
-    
-                        const res = { success: true, data: {notpaid : notPaidCount , paid : paidCount}  }
-                        return res;
-                    })
-                    .catch(error => {
-                        const res = { success: false, error: error }
-                        return res;
-                    })
-    
+                            else {
+                                paidCount = paidCount + 1
+                            }
+                        }
+                    );
 
+                    const res = { success: true, data: { notpaid: notPaidCount, paid: paidCount } }
+                    return res;
+                })
+                .catch(error => {
+                    const res = { success: false, error: error }
+                    return res;
+                })
 
-
-            res.send({purchaseHistory : response , salesHistory : response2 });
+            res.send({ purchaseHistory: response, salesHistory: response2 });
 
         } catch (e) {
             console.log(e);

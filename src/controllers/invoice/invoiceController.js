@@ -7,8 +7,7 @@ const Joi = require('joi');
 const invoiceController = {}
 
 // import model
-var Invoices = require('../models/Invoices');
-
+var Invoices = require('../../models/Invoices');
 
 invoiceController.create = async (req, res) => {
 
