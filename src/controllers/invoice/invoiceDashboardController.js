@@ -4,6 +4,7 @@ const invoiceDashboardController = {}
 
 // import model
 var Invoices = require('../../models/Invoices');
+var Orders = require('../../models/Orders');
 
 
 invoiceDashboardController.history = async (req, res) => {
@@ -11,6 +12,8 @@ invoiceDashboardController.history = async (req, res) => {
     const schema = Joi.object().keys(
         {
             walletaddress: Joi.string().required(),
+            email: Joi.string().required(),
+             
         });
 
     const validatation = schema.validate(req.body)
@@ -28,13 +31,17 @@ invoiceDashboardController.history = async (req, res) => {
     else {
         try {
 
-            const response = await Invoices.findAll({
-                customerwalletaddress: req.body.walletaddress,
+            const response = await Orders.findAll({
+
+                where: {
+                    customeremail: req.body.email,
+                }
+                
             })
                 .then(function (data) {
 
 
-                    var notPaidCount = 0
+                    var unPaidCount = 0
                     var totalCount = 0
                     data.forEach(
                         (invoices) => {
@@ -42,11 +49,11 @@ invoiceDashboardController.history = async (req, res) => {
                             totalCount = totalCount + 1
                             if (invoices.paidstatus == false) {
 
-                                notPaidCount = notPaidCount + 1;
+                                unPaidCount = unPaidCount + 1;
                             }
                         }
                     );
-                    const res = { success: true, data: { notpaid: notPaidCount, total: totalCount } }
+                    const res = { success: true, data: { unpaid: unPaidCount, MyOrders: totalCount } }
                     return res;
                 })
                 .catch(error => {
@@ -55,12 +62,14 @@ invoiceDashboardController.history = async (req, res) => {
                 })
 
 
-            const response2 = await Invoices.findAll({
-                sellerwalletaddress: req.body.walletaddress,
+            const response2 = await Orders.findAll({
+                where: {
+                    sellerwalletaddress: req.body.walletaddress,
+                }
             })
                 .then(function (data) {
 
-                    var notPaidCount = 0
+                    var unPaidCount = 0
                     var paidCount = 0
 
                     data.forEach(
@@ -68,7 +77,7 @@ invoiceDashboardController.history = async (req, res) => {
 
                             if (invoices.paidstatus == false) {
 
-                                notPaidCount = notPaidCount + 1;
+                                unPaidCount = unPaidCount + 1;
                             }
                             else {
                                 paidCount = paidCount + 1
@@ -76,7 +85,7 @@ invoiceDashboardController.history = async (req, res) => {
                         }
                     );
 
-                    const res = { success: true, data: { notpaid: notPaidCount, paid: paidCount } }
+                    const res = { success: true, data: { unpaid: unPaidCount, paid: paidCount } }
                     return res;
                 })
                 .catch(error => {

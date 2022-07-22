@@ -9,7 +9,8 @@ const resolutionController = require('../controllers/resolutionController')
 
 
 
-router.post('/selectResolution',resolutionController.selectResolution);
+router.post('/selectResolution/:invoiceId',resolutionController.selectResolution);
+router.post('/displayMeditorWithIndustry/:industry',resolutionController.displayMediatorWithIndustry);
 
 
 module.exports = router;

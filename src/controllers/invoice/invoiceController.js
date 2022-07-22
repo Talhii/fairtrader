@@ -18,7 +18,6 @@ invoiceController.create = async (req, res) => {
             customername: Joi.string().required(),
             customeraddress: Joi.string().required(),
             customeremail: Joi.string().required(),
-            customerwalletaddress: Joi.string().required(),
             payment: Joi.string().required(),
 
         });
@@ -40,18 +39,18 @@ invoiceController.create = async (req, res) => {
             const invoiceNumber = Math.floor(100000 + Math.random() * 900000)
 
             const response = await Invoices.create({
+
                 sellerwalletaddress: req.body.sellerwalletaddress,
                 invoicenumber: invoiceNumber,
                 customername: req.body.customername,
                 customeraddress: req.body.customeraddress,
                 customeremail: req.body.customeremail,
-                customerwalletaddress: req.body.customerwalletaddress,
                 invoicefile: req.file.path,
                 payment: req.body.payment,
 
             })
                 .then(function (data) {
-                    const res = { success: true, message: "created successful" }
+                    const res = { success: true, invoiceId: data.id }
                     return res;
                 })
                 .catch(error => {

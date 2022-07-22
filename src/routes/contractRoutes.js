@@ -6,6 +6,6 @@ const contractController = require('../controllers/contractController')
 
 
 
-router.post('/createContract', contractController.uploadfiles, contractController.create);
+router.post('/createContract/:invoiceId', contractController.uploadfiles, contractController.create);
 
 module.exports = router;

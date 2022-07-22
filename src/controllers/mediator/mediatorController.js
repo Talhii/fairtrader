@@ -103,12 +103,8 @@ mediatorContoller.createProfile = (req, res) => {
             country: req.body.country,
             city: req.body.city,
             phone: req.body.phone,
-            language: {
-                lang: req.body.language,
-            },
-            industry: {
-                indus: req.body.industry,
-            },
+            language: req.body.language,
+            industry: req.body.industry,
             facebookLink: req.body.facebookLink,
         },
         {

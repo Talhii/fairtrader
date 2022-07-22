@@ -67,11 +67,6 @@ var Orders = sequelize.define('orders', {
     defaultValue: ""
   },
 
-  customerwalletaddress: {
-    type: Sequelize.STRING,
-    defaultValue: ""
-  },
-
   invoicefile: {
     type: Sequelize.STRING,
     defaultValue: ""

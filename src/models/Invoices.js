@@ -16,7 +16,6 @@ var Invoices = sequelize.define('invoices', {
   customername: Sequelize.STRING,
   customeraddress: Sequelize.STRING,
   customeremail: Sequelize.STRING,
-  customerwalletaddress: Sequelize.STRING,
   invoicefile : Sequelize.STRING,
   payment : Sequelize.STRING,
 
