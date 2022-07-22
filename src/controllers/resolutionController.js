@@ -30,8 +30,6 @@ resolutionController.selectResolution = async (req, res) => {
     else {
         try {
 
-
-            
             if (req.body.resolution == "two party only") {
 
                 response = await Resolution.create({
